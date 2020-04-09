@@ -59,5 +59,5 @@ And you'll see all the data you've loaded with Airflow.
 
 I have put some interesting data pipeline `dags` directory. I'll continue to add more as I come across. Feel free to contribute as well.
 
-- [JHU Covid Data](https://github.com/l1990790120/local-data-stack/blob/master/dags/convid_example.py)
+- [JHU Covid Data](https://github.com/l1990790120/local-data-stack/blob/master/dags/covid_example.py)
 - More to come
