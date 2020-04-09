@@ -35,9 +35,11 @@ class CovidLoadDataDagHistorical(GenericDataDag):
         mm = ds[5:7]
         dd = ds[8:10]
 
-        url = "https://raw.githubusercontent.com/CSSEGISandData/" \
-            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/" \
+        url = (
+            "https://raw.githubusercontent.com/CSSEGISandData/"
+            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
             f"{mm}-{dd}-{yyyy}.csv"
+        )
 
         print("download from", url)
         df = pd.read_csv(url)
@@ -93,24 +95,6 @@ class CovidLoadDataDagNew(CovidLoadDataDagHistorical):
     analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
     engine = create_engine(analytics_postgres)
 
-    @classmethod
-    def download_from_github(cls, *args, **kwargs):
-        ds = kwargs["ds"]
-
-        yyyy = ds[0:4]
-        mm = ds[5:7]
-        dd = ds[8:10]
-
-        url = "https://raw.githubusercontent.com/CSSEGISandData/" \
-            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/" \
-            f"{mm}-{dd}-{yyyy}.csv"
-
-        print("download from", url)
-        df = pd.read_csv(url)
-        df.to_sql(
-            cls.table_name, cls.engine, if_exists="append", index=False,
-        )
-
 
 class CovidLoadDataDagNewer(CovidLoadDataDagHistorical):
     # new data has different schema
@@ -128,24 +112,6 @@ class CovidLoadDataDagNewer(CovidLoadDataDagHistorical):
 
     analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
     engine = create_engine(analytics_postgres)
-
-    @classmethod
-    def download_from_github(cls, *args, **kwargs):
-        ds = kwargs["ds"]
-
-        yyyy = ds[0:4]
-        mm = ds[5:7]
-        dd = ds[8:10]
-
-        url = "https://raw.githubusercontent.com/CSSEGISandData/" \
-            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/" \
-            f"{mm}-{dd}-{yyyy}.csv"
-
-        print("download from", url)
-        df = pd.read_csv(url)
-        df.to_sql(
-            cls.table_name, cls.engine, if_exists="append", index=False,
-        )
 
 
 h = CovidLoadDataDagHistorical()
