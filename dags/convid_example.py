@@ -11,17 +11,18 @@ from sqlalchemy import create_engine
 from generic_data_dag import GenericDataDag
 
 
-class ConvidLoadDataDag(GenericDataDag):
+class ConvidLoadDataDagHistorical(GenericDataDag):
 
-    dag_id = "convid-data-dag"
-    dag_description = "jhu convid data dag"
+    dag_id = "convid-historical-data-dag"
+    dag_description = "jhu convid (1/22-2/29) data dag"
     start_date = datetime(2020, 1, 22, 0, 0)
+    end_date = datetime(2020, 2, 29, 0, 0)
     schedule_interval = "@daily"
     catchup = True
 
     tmp_dir = "tmp"
     out_dir = "out"
-    table_name = "csse_covid_19_data"
+    table_name = "csse_covid_19_data_historical"
 
     analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
     engine = create_engine(analytics_postgres)
@@ -75,5 +76,83 @@ class ConvidLoadDataDag(GenericDataDag):
         )
 
 
-c = ConvidLoadDataDag()
-c_dag = c.get_data_prep_dag()
+class ConvidLoadDataDagNew(ConvidLoadDataDagHistorical):
+    # new data has different schema
+
+    dag_id = "convid-new-data-dag"
+    dag_description = "jhu convid (3/1-3/21) data dag"
+    start_date = datetime(2020, 3, 1, 0, 0)
+    end_date = datetime(2020, 3, 21, 0, 0)
+    schedule_interval = "@daily"
+    catchup = True
+
+    tmp_dir = "tmp"
+    out_dir = "out"
+    table_name = "csse_covid_19_data_new"
+
+    analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
+    engine = create_engine(analytics_postgres)
+
+    @classmethod
+    def download_from_github(cls, *args, **kwargs):
+        ds = kwargs["ds"]
+
+        yyyy = ds[0:4]
+        mm = ds[5:7]
+        dd = ds[8:10]
+
+        url = "https://raw.githubusercontent.com/CSSEGISandData/" \
+            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/" \
+            f"{mm}-{dd}-{yyyy}.csv"
+
+        print("download from", url)
+        df = pd.read_csv(url)
+        df.to_sql(
+            cls.table_name, cls.engine, if_exists="append", index=False,
+        )
+
+
+class ConvidLoadDataDagNewer(ConvidLoadDataDagHistorical):
+    # new data has different schema
+
+    dag_id = "convid-newer-data-dag"
+    dag_description = "jhu convid (3/22+) data dag"
+    start_date = datetime(2020, 3, 22, 0, 0)
+    end_date = None
+    schedule_interval = "@daily"
+    catchup = True
+
+    tmp_dir = "tmp"
+    out_dir = "out"
+    table_name = "csse_covid_19_data_newer"
+
+    analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
+    engine = create_engine(analytics_postgres)
+
+    @classmethod
+    def download_from_github(cls, *args, **kwargs):
+        ds = kwargs["ds"]
+
+        yyyy = ds[0:4]
+        mm = ds[5:7]
+        dd = ds[8:10]
+
+        url = "https://raw.githubusercontent.com/CSSEGISandData/" \
+            "COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/" \
+            f"{mm}-{dd}-{yyyy}.csv"
+
+        print("download from", url)
+        df = pd.read_csv(url)
+        df.to_sql(
+            cls.table_name, cls.engine, if_exists="append", index=False,
+        )
+
+
+h = ConvidLoadDataDagHistorical()
+h_dag = h.get_data_prep_dag()
+
+n = ConvidLoadDataDagNew()
+n_dag = n.get_data_prep_dag()
+
+nn = ConvidLoadDataDagNewer()
+nn_dag = nn.get_data_prep_dag()

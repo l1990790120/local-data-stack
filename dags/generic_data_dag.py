@@ -19,8 +19,9 @@ class GenericDataDag:
 
     dag_id = "generic-example-dag"
     dag_description = "a generic example dag"
-    catchup = False
     start_date = None
+    end_date = None
+    catchup = False
     schedule_interval = None
 
     @property
@@ -32,6 +33,7 @@ class GenericDataDag:
             "is_paused_upon_creation": False,
             "catchup": self.catchup,
             "start_date": self.start_date,
+            "end_date": self.end_date,
         }
 
     def get_data_prep_dag(self):
