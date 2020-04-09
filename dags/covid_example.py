@@ -11,10 +11,10 @@ from sqlalchemy import create_engine
 from generic_data_dag import GenericDataDag
 
 
-class ConvidLoadDataDagHistorical(GenericDataDag):
+class CovidLoadDataDagHistorical(GenericDataDag):
 
-    dag_id = "convid-historical-data-dag"
-    dag_description = "jhu convid (1/22-2/29) data dag"
+    dag_id = "covid-historical-data-dag"
+    dag_description = "jhu covid (1/22-2/29) data dag"
     start_date = datetime(2020, 1, 22, 0, 0)
     end_date = datetime(2020, 2, 29, 0, 0)
     schedule_interval = "@daily"
@@ -76,11 +76,11 @@ class ConvidLoadDataDagHistorical(GenericDataDag):
         )
 
 
-class ConvidLoadDataDagNew(ConvidLoadDataDagHistorical):
+class CovidLoadDataDagNew(CovidLoadDataDagHistorical):
     # new data has different schema
 
-    dag_id = "convid-new-data-dag"
-    dag_description = "jhu convid (3/1-3/21) data dag"
+    dag_id = "covid-new-data-dag"
+    dag_description = "jhu covid (3/1-3/21) data dag"
     start_date = datetime(2020, 3, 1, 0, 0)
     end_date = datetime(2020, 3, 21, 0, 0)
     schedule_interval = "@daily"
@@ -112,11 +112,11 @@ class ConvidLoadDataDagNew(ConvidLoadDataDagHistorical):
         )
 
 
-class ConvidLoadDataDagNewer(ConvidLoadDataDagHistorical):
+class CovidLoadDataDagNewer(CovidLoadDataDagHistorical):
     # new data has different schema
 
-    dag_id = "convid-newer-data-dag"
-    dag_description = "jhu convid (3/22+) data dag"
+    dag_id = "covid-newer-data-dag"
+    dag_description = "jhu covid (3/22+) data dag"
     start_date = datetime(2020, 3, 22, 0, 0)
     end_date = None
     schedule_interval = "@daily"
@@ -148,11 +148,11 @@ class ConvidLoadDataDagNewer(ConvidLoadDataDagHistorical):
         )
 
 
-h = ConvidLoadDataDagHistorical()
+h = CovidLoadDataDagHistorical()
 h_dag = h.get_data_prep_dag()
 
-n = ConvidLoadDataDagNew()
+n = CovidLoadDataDagNew()
 n_dag = n.get_data_prep_dag()
 
-nn = ConvidLoadDataDagNewer()
+nn = CovidLoadDataDagNewer()
 nn_dag = nn.get_data_prep_dag()
