@@ -85,15 +85,8 @@ class CovidLoadDataDagNew(CovidLoadDataDagHistorical):
     dag_description = "jhu covid (3/1-3/21) data dag"
     start_date = datetime(2020, 3, 1, 0, 0)
     end_date = datetime(2020, 3, 21, 0, 0)
-    schedule_interval = "@daily"
-    catchup = True
 
-    tmp_dir = "tmp"
-    out_dir = "out"
     table_name = "csse_covid_19_data_new"
-
-    analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
-    engine = create_engine(analytics_postgres)
 
 
 class CovidLoadDataDagNewer(CovidLoadDataDagHistorical):
@@ -103,15 +96,8 @@ class CovidLoadDataDagNewer(CovidLoadDataDagHistorical):
     dag_description = "jhu covid (3/22+) data dag"
     start_date = datetime(2020, 3, 22, 0, 0)
     end_date = None
-    schedule_interval = "@daily"
-    catchup = True
 
-    tmp_dir = "tmp"
-    out_dir = "out"
     table_name = "csse_covid_19_data_newer"
-
-    analytics_postgres = "postgresql://postgres@postgres:5432/analytics"
-    engine = create_engine(analytics_postgres)
 
 
 h = CovidLoadDataDagHistorical()
