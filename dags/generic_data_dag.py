@@ -37,7 +37,6 @@ class GenericDataDag:
         }
 
     def get_data_prep_dag(self):
-        print(self.dag_args)
         dag = DAG(**self.dag_args, default_args=self.default_args)
         with dag:
             get_data = self.get_data()
@@ -48,7 +47,6 @@ class GenericDataDag:
         return dag
 
     def get_model_dag(self):
-        print(self.dag_args)
         dag = DAG(**self.dag_args, default_args=self.default_args)
         with dag:
             get_data = self.get_data()
