@@ -173,13 +173,13 @@ services:
       - -c
       - airflow
 
-  # superset:
-  #   image: amancevice/superset
-  #   restart: always
-  #   depends_on:
-  #     - postgres
-  #     - redis
-  #   ports:
-  #     - "8088:8088"
-  #   volumes:
-  #     - ./superset/config.py:/etc/superset/superset_config.py            
+  superset:
+    image: amancevice/superset
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./superset/config.py:/etc/superset/superset_config.py            
