@@ -15,7 +15,7 @@ class CovidLoadDataDagHistorical(GenericDataDag):
     start_date = datetime(2020, 1, 22, 0, 0)
     end_date = datetime(2020, 2, 29, 0, 0)
     schedule_interval = "@daily"
-    catchup = True
+    catchup = False
 
     tmp_dir = "tmp"
     out_dir = "out"
