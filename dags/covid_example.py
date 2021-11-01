@@ -1,9 +1,6 @@
-import os
 from datetime import datetime
-from zipfile import ZipFile
 
 import pandas as pd
-import requests
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from sqlalchemy import create_engine
