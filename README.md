@@ -9,11 +9,15 @@ The `docker-compose` is consisted of:
 2. [Superset](https://superset.apache.org/)
 3. [Postgres](https://www.postgresql.org/)
 
-The `dags` directory has some nice examples to show you how you can use this 
+The `dags` directory has some nice examples to show you how you can use this
 repo to bootstrap data analytics or machine learning projects quickly on your
 local machine.
 
-# Quick Start
+**Update as of 2021-11-01**: The docker-compose is adapted from the official
+version: https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml
+to use local executor and no longer using https://github.com/puckel/docker-airflow.
+
+## Quick Start
 
 **Reminders:** You'll need `docker` and `docker-compose`.
 
@@ -26,16 +30,20 @@ docker-compose up -d
 ```
 
 Suppose things are working as expected, you should see
+
 - Airflow: [http://localhost:8080/](http://localhost:8080/)
 - Superset: [http://localhost:8088/](http://localhost:8088/)
 
-**Note:** For superset, you will have to initialize database for the first time, details [here](https://github.com/amancevice/docker-superset#database-initialization).
+**Note:**
+
+1. Default login for airflow is username: airflow and password: airflow.
+2. For superset, you will have to initialize database for the first time, details [here](https://github.com/amancevice/docker-superset#database-initialization).
 
 ```bash
 docker exec -it local-data-stack_superset_1 superset-init
 ```
 
-# Technical Details
+## Technical Details
 
 The Postgres is used as backend for both Airflow (under user airflow) and Superset (under user superset). Data are loaded into database `analytics` (under user postgres).
 
@@ -55,7 +63,7 @@ psql -U postgres -d analytics
 
 And you'll see all the data you've loaded with Airflow.
 
-# Example Dags
+## Example Dags
 
 I have put some interesting data pipeline `dags` directory. I'll continue to add more as I come across. Feel free to contribute as well.
 

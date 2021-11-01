@@ -21,6 +21,7 @@ class GenericDataDag:
     dag_description = "a generic example dag"
     start_date = None
     end_date = None
+    is_paused_upon_creation = True
     catchup = False
     schedule_interval = None
 
@@ -30,7 +31,7 @@ class GenericDataDag:
             "dag_id": self.dag_id,
             "description": self.dag_description,
             "schedule_interval": self.schedule_interval,
-            "is_paused_upon_creation": False,
+            "is_paused_upon_creation": self.is_paused_upon_creation,
             "catchup": self.catchup,
             "start_date": self.start_date,
             "end_date": self.end_date,
