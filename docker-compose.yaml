@@ -31,7 +31,7 @@ x-airflow-common:
       condition: service_healthy
 services:
   redis:
-    image: redis
+    image: redis:latest
     restart: always
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -40,7 +40,7 @@ services:
       retries: 5
     restart: always
   postgres:
-    image: postgres:9.6
+    image: postgres:13
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
